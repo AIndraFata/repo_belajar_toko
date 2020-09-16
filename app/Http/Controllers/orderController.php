@@ -10,14 +10,14 @@ class orderController extends Controller
 {
     public function show()
     {
-        $data_order = order::join('customers', 'order.id_customers', 'customers.id_customers')->join('product', 'order.id_product', 'product.id_product')->get();
+        $data_order = order::join('customers', 'order.id_customers', 'customers.id_customers')->leftjoin('product', 'order.id_product', 'product.id_product')->get();
         return Response()->json($data_order);
     }
 
     public function detail($id)
     {
         if(order::where('id_order', $id)->exists()){
-            $data_order = order::join('customers', 'order.id_customers', 'customers.id_customers')->join('product', 'order.id_product', 'product.id_product')
+            $data_order = order::join('customers', 'order.id_customers', 'customers.id_customers')->leftjoin('product', 'order.id_product', 'product.id_product')
                                         ->where('order.id_order', '=', $id)
                                         ->get();
 
@@ -79,6 +79,17 @@ class orderController extends Controller
         }
         else {
             return Response()->json(['status' => 0]);
+        }
+    }
+
+    public function destroy($id)
+    {
+        $hapus = order::where('id_order', $id)->delete();
+        if($hapus) {
+            return Response()->json(['status' => 1]);
+        }
+        else {
+            return Response()->sjon(['status' => 0]);
         }
     }
 }
