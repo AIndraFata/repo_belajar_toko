@@ -134,7 +134,8 @@ return [
     |
     */
 
-    'providers' => [
+    'providers' => [Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+
 
         /*
          * Laravel Framework Service Providers...
@@ -188,7 +189,9 @@ return [
     |
     */
 
-    'aliases' => [
+    'aliases' => ['JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
+                  'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
+    
 
         'App' => Illuminate\Support\Facades\App::class,
         'Arr' => Illuminate\Support\Arr::class,

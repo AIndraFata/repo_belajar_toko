@@ -2,6 +2,28 @@
 
 use Illuminate\Http\Request;
 
+Route::post('/register', 'UserController@register');
+Route::post('/login', 'UserController@login');
+
+Route::group(['middleware' => ['jwt.verify']], function ()
+{
+    Route::get('/customers', 'customersController@show');
+    Route::post('/customers', 'customersController@store');
+    Route::put('/customers/{id}', 'customersController@update');
+    Route::delete('/customers/{id}', 'customersController@destroy');
+
+    Route::get('/product', 'productController@show');
+    Route::post('/product', 'productController@store');
+    Route::put('/product/{id}', 'productController@update');
+    Route::delete('/product/{id}', 'productController@destroy');
+
+    Route::get('/order', 'orderController@show');
+    Route::get('/order/{id}', 'orderController@detail');
+    Route::post('/order', 'orderController@store');
+    Route::put('/order/{id}', 'orderController@update');
+    Route::delete('/order/{id}', 'orderController@destroy');
+});
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -13,22 +35,3 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-Route::get('/customers', 'customersController@show');
-Route::post('/customers', 'customersController@store');
-Route::put('/customers/{id}', 'customersController@update');
-Route::delete('/customers/{id}', 'customersController@destroy');
-
-Route::get('/product', 'productController@show');
-Route::post('/product', 'productController@store');
-Route::put('/product/{id}', 'productController@update');
-Route::delete('/product/{id}', 'productController@destroy');
-
-Route::get('/order', 'orderController@show');
-Route::get('/order/{id}', 'orderController@detail');
-Route::post('/order', 'orderController@store');
-Route::put('/order/{id}', 'orderController@update');
-Route::delete('/order/{id}', 'orderController@destroy');
